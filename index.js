@@ -1,12 +1,11 @@
 const inquirer = require("inquirer");
+const fs = require("fs");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const team = require("./util/generateHtml")
 
-const manager = [];
-const engineers = [];
-const interns = [];
+const employees = [];
 
 const start = ()=>{
     inquirer.prompt([
@@ -32,8 +31,8 @@ const start = ()=>{
         }
 ]).then(ans=>{
     const me = new Manager(ans.managerName, ans.managerId, ans.managerEmail, ans.managerOfficeNumber)
-    manager.push(me)
-    console.table(manager)
+    employees.push(me)
+    console.table(employees)
     addAnEmployee()
     })
 }
@@ -52,7 +51,8 @@ const addAnEmployee = ()=>{
         } else if(ans.selection==="Add an Intern"){
             addAnIntern()
         } else {
-            console.log("Finished building team. Please wait.")
+            console.log("Finished building team. Please checkout index.html to see your team's profiles!")
+            writeToFile('index.html', team(employees))
         }
     })
 }
@@ -81,8 +81,8 @@ const addAnEngineer = ()=>{
         }
     ]).then(ans=>{
         const me = new Engineer(ans.engineerName, ans.engineerId, ans.engineerEmail, ans.engineerGithub)
-        engineers.push(me)
-        console.table(engineers)
+        employees.push(me)
+        console.table(employees)
         addAnEmployee()
     })
 }
@@ -111,9 +111,17 @@ const addAnIntern = ()=>{
         }
     ]).then(ans=>{
         const me = new Intern(ans.internName, ans.internId, ans.internEmail, ans.internSchool)
-        interns.push(me)
-        console.table(interns)
+        employees.push(me)
+        console.table(employees)
         addAnEmployee()
+    })
+}
+
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName,data,err => {
+        if (err) {
+            console.error(err)
+        }
     })
 }
 
