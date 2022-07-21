@@ -1,7 +1,12 @@
 const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer")
-const Intern = require("./lib/Intern")
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const team = require("./util/generateHtml")
+
+const manager = [];
+const engineers = [];
+const interns = [];
 
 const start = ()=>{
     inquirer.prompt([
@@ -26,9 +31,9 @@ const start = ()=>{
         name:"managerOfficeNumber"
         }
 ]).then(ans=>{
-    console.log(ans)
     const me = new Manager(ans.managerName, ans.managerId, ans.managerEmail, ans.managerOfficeNumber)
-    console.log(me)
+    manager.push(me)
+    console.table(manager)
     addAnEmployee()
     })
 }
@@ -75,9 +80,9 @@ const addAnEngineer = ()=>{
         name:"engineerGithub"
         }
     ]).then(ans=>{
-       console.log(ans)
         const me = new Engineer(ans.engineerName, ans.engineerId, ans.engineerEmail, ans.engineerGithub)
-        console.log(me)
+        engineers.push(me)
+        console.table(engineers)
         addAnEmployee()
     })
 }
@@ -105,9 +110,9 @@ const addAnIntern = ()=>{
         name:"internSchool"
         }
     ]).then(ans=>{
-       console.log(ans)
         const me = new Intern(ans.internName, ans.internId, ans.internEmail, ans.internSchool)
-        console.log(me)
+        interns.push(me)
+        console.table(interns)
         addAnEmployee()
     })
 }
